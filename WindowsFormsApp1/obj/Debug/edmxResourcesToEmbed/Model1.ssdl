@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Kutuphane1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Kayitlar">
+    <Key>
+      <PropertyRef Name="kayit_id" />
+    </Key>
+    <Property Name="kayit_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kullanici_id" Type="int" />
+    <Property Name="kitap_id" Type="int" />
+    <Property Name="alis_tarih" Type="datetime" />
+    <Property Name="son_tarih" Type="datetime" />
+    <Property Name="durum" Type="bit" />
+  </EntityType>
+  <EntityType Name="kitaplar">
+    <Key>
+      <PropertyRef Name="kitap_id" />
+    </Key>
+    <Property Name="kitap_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kitap_ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="kitap_yazar" Type="nvarchar" MaxLength="50" />
+    <Property Name="kitap_yayıncı" Type="nvarchar" MaxLength="50" />
+    <Property Name="kitap_sayfasayisi" Type="int" />
+    <Property Name="kitap_basimtarihi" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Kullanicilar">
+    <Key>
+      <PropertyRef Name="kullanici_id" />
+    </Key>
+    <Property Name="kullanici_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kullanici_ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="kullanici_soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="kullanici_no" Type="nvarchar" MaxLength="50" />
+    <Property Name="kullanici_cinsiyet" Type="nvarchar" MaxLength="1" />
+    <Property Name="kullanici_tel" Type="nvarchar" MaxLength="11" />
+  </EntityType>
+  <EntityType Name="Personeller">
+    <Key>
+      <PropertyRef Name="personel_id" />
+    </Key>
+    <Property Name="personel_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="personel_ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="personel_soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="personel_no" Type="nvarchar" MaxLength="50" />
+    <Property Name="personel_kullanıcıadi" Type="nvarchar" MaxLength="50" />
+    <Property Name="personel_sifre" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Kayitlar_kitaplar1">
+    <End Role="kitaplar" Type="Self.kitaplar" Multiplicity="0..1" />
+    <End Role="Kayitlar" Type="Self.Kayitlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kitaplar">
+        <PropertyRef Name="kitap_id" />
+      </Principal>
+      <Dependent Role="Kayitlar">
+        <PropertyRef Name="kitap_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Kayitlar_Kullanicilar1">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="Kayitlar" Type="Self.Kayitlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="Kayitlar">
+        <PropertyRef Name="kullanici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Kutuphane1ModelStoreContainer">
+    <EntitySet Name="Kayitlar" EntityType="Self.Kayitlar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="kitaplar" EntityType="Self.kitaplar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Personeller" EntityType="Self.Personeller" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Kayitlar_kitaplar1" Association="Self.FK_Kayitlar_kitaplar1">
+      <End Role="kitaplar" EntitySet="kitaplar" />
+      <End Role="Kayitlar" EntitySet="Kayitlar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Kayitlar_Kullanicilar1" Association="Self.FK_Kayitlar_Kullanicilar1">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="Kayitlar" EntitySet="Kayitlar" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
